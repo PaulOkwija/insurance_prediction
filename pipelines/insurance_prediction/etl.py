@@ -15,6 +15,31 @@ def extract_data(file_path):
     print(f"Extracted csv data from {file_path}. Shape is {data.shape}")
     return data
 
+def switch_to_int(df, columns):
+    """
+    Transforms specified columns in the dataframe by mapping values or creating dummy variables.
+
+    Parameters:
+    df (pandas.DataFrame): The input dataframe.
+    columns (list of str): List of column names to be transformed.
+
+    Returns:
+    pandas.DataFrame: The transformed dataframe with specified columns mapped or converted to dummy variables.
+
+    The function performs the following transformations:
+    - For columns starting with 'Building', it maps the values using the `change_values_building` function.
+    - For the column 'Garden', it maps the values using the `change_values_garden` function.
+    - For all other columns, it converts them to dummy variables using `pd.get_dummies`.
+    """
+    for col in columns:
+        if col.startswith('Building'):
+            df[col] = df[col].map(change_values_building)
+        elif col=='Garden':
+            df[col] = df[col].map(change_values_garden)
+        else:
+          df = pd.get_dummies(df, columns=[col])
+    return df
+
 def transform_value(x):
     """
     Transforms specific string values to integers.
@@ -123,7 +148,31 @@ def overview(dataframe):
 
     print("\n ###################### Overview Complete ###################### \n")
 
+def preprocess(dataframe):
+    """
+    Preprocesses the DataFrame by cleaning data, transforming categorical data, handling missing values, and dropping unnecessary columns.
 
+    Parameters:
+    dataframe (pd.DataFrame): The DataFrame to preprocess.
+
+    Returns:
+    pd.DataFrame: The preprocessed DataFrame.
+    """
+
+    print("\n ### Cleaning data.... ###\n")
+    dataframe = apply_transform(dataframe, ['NumberOfWindows','Building_Type'])
+
+    print("\n ### Swapping categorical data... ### \n")
+    dataframe = switch_to_int(dataframe, ['Building_Painted','Building_Fenced','Garden','Settlement'])
+
+    print("\n ### Dealing with missing values... ### \n")
+    dataframe = missing_val_removal(dataframe,['Date_of_Occupancy','Building Dimension','Garden'],'median')
+
+    print("\n ### Dropping Geo_code... ### \n")
+    dataframe = dataframe.drop(['Geo_Code'],axis=1)
+    print(f"Train shape is {dataframe.shape}")
+
+    return dataframe
 
 # def overview(dataframe):
 #     """
