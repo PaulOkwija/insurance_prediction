@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 from sklearn import metrics
-
+import numpy as np
 
 def plot_roc_curve(y_true, y_pred_prob):
     """
