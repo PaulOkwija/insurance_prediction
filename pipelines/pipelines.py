@@ -1,1 +1,1 @@
-from insurance_prediction import insurance_prediction
+from pipelines import insurance_prediction
