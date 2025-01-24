@@ -39,6 +39,10 @@ def run_pipeline(file_path, val_size=0.2, feature_selection=True):
 
 
     model = train_model(preprocessed_features, labels)
-    evaluate_model(labels, model.predict(preprocessed_features), category="Test")
-    visualize(model, preprocessed_features, labels)
+    y_test_pred = model.predict(X_test)
+    evaluate_model(y_test, y_test_pred, category="Test")
+    plot_confusion_matrix(y_test, y_test_pred, [0, 1], title="Test Confusion matrix")
     return model
+
+if __name__ == "__main__":
+    run_pipeline("/content/insurance_prediction/data/0_raw/train_data.csv")

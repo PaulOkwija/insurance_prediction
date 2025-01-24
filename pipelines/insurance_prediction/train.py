@@ -10,7 +10,7 @@ def evaluate_model(y_true, y_pred, category="Train"):
     Evaluate the model's performance on the given data.
 
     Parameters:
-    y_train (array-like): True labels.
+    y_true (array-like): True labels.
     y_pred (array-like): Predicted labels.
     category (str): Category of the evaluation (default is "Train").
 
