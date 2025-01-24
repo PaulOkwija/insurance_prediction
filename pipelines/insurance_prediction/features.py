@@ -3,18 +3,21 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import Normalizer
+import pandas as pd
 
 
-def feature_select(x_train, y_train):
+def feature_select(x_train, y_train, train_features, top_features=5):
     """
     Selects important features from the training data using a Random Forest classifier.
     
     Parameters:
     x_train (pd.DataFrame or np.ndarray): The training input samples.
     y_train (pd.Series or np.ndarray): The target values.
+    train_features (pd.DataFrame): The training features.
+    top_features (int): The number of top features to select.
     
     Returns:
-    np.ndarray: A boolean array indicating which features are selected.
+    np.ndarray: An array indicating which features are selected.
     """
 
     # Using random forest to fit data
@@ -22,10 +25,19 @@ def feature_select(x_train, y_train):
     rf.fit(x_train, y_train)
     print("Rf score", rf.score(x_train, y_train))
 
-    model = SelectFromModel(rf, prefit=True)
-    features_bool = model.get_support()
-    # features = train_features.columns[features_bool]
-    return features_bool
+    # Extract feature importances
+    importances = rf.feature_importances_
+    feature_names = train_features.columns
+    feature_importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
+
+    # Rank features by importance
+    feature_importance_df = feature_importance_df.sort_values(by='Importance', ascending=False)
+    print(feature_importance_df)
+
+    # Select top N top_features (example selecting top 5 features)
+    top_features = feature_importance_df['Feature'][:top_features].values
+
+    return top_features
 
 def split_data(features, labels, val_size, strat=None, seed=42):
     """
