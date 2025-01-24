@@ -6,7 +6,7 @@ from sklearn.preprocessing import Normalizer
 import pandas as pd
 
 
-def feature_select(x_train, y_train, train_features, top_features=5):
+def feature_select(x_train, y_train, feature_names, top_features=5):
     """
     Selects important features from the training data using a Random Forest classifier.
     
@@ -27,7 +27,6 @@ def feature_select(x_train, y_train, train_features, top_features=5):
 
     # Extract feature importances
     importances = rf.feature_importances_
-    feature_names = train_features.columns
     feature_importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
 
     # Rank features by importance
