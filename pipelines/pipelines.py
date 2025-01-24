@@ -34,7 +34,7 @@ def run_pipeline(file_path, val_size=0.2, feature_selection=True):
     
     if feature_selection:
         feature_names = preprocessed_features.columns
-        selected_features = feature_select(X_train, y_train)
+        selected_features = feature_select(X_train, y_train, feature_names)
         X_train = pd.DataFrame(X_train, columns=[feature_names])
         X_test = pd.DataFrame(X_test, columns=[feature_names])
         X_train_selected = X_train[selected_features]
