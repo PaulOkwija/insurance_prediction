@@ -2,6 +2,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.feature_selection import SelectFromModel
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import Normalizer
 
 
 def feature_select(x_train, y_train):
@@ -15,6 +16,7 @@ def feature_select(x_train, y_train):
     Returns:
     np.ndarray: A boolean array indicating which features are selected.
     """
+
     # Using random forest to fit data
     rf = RandomForestClassifier(class_weight='balanced', n_estimators=100)
     rf.fit(x_train, y_train)
@@ -25,7 +27,7 @@ def feature_select(x_train, y_train):
     # features = train_features.columns[features_bool]
     return features_bool
 
-def split_data(train_features, train_y, val_size, strat=None, seed=42):
+def split_data(features, labels, val_size, strat=None, seed=42):
     """
     Splits the data into training and validation sets.
     
@@ -40,6 +42,25 @@ def split_data(train_features, train_y, val_size, strat=None, seed=42):
     tuple: The training and validation sets for features and target values.
     """
     # Split the data
-    X_train, X_val, y_train, y_val = train_test_split(train_features, train_y, test_size=val_size, random_state=seed, stratify=strat)
+    X_train, X_val, y_train, y_val = train_test_split(features, labels, test_size=val_size, random_state=seed, stratify=strat)
 
     return X_train, X_val, y_train, y_val
+
+
+
+def normalize(X_train, X_val):
+    """
+    Normalizes the data using the mean and standard deviation of the training set.
+    
+    Parameters:
+    X_train (pd.DataFrame or np.ndarray): The training input samples.
+    X_val (pd.DataFrame or np.ndarray): The validation input samples.
+    
+    Returns:
+    tuple: Normalized training and validation sets.
+    """
+    # Normalize the data
+    norm = Normalizer()
+    X_train_norm = norm.fit_transform(X_train)
+    X_val_norm = norm.transform(X_val)
+    return X_train_norm, X_val_norm

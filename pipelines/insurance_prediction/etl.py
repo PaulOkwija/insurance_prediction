@@ -197,3 +197,4 @@ def preprocess(dataframe):
 #     null_values = dataframe.isnull().sum().reset_index()
 #     null_values.columns = ["Column", "Null Values"]
 #     print(tabulate(null_values, headers="keys", tablefmt="pretty"))
+
