@@ -26,18 +26,18 @@ def evaluate_model(y_true, y_pred, category="Train"):
     print(f"{category} Mean Squared Error: {error:.4f}")
 
 
-def train_model(X_train, y_train):
+def train_model(X_data, y_data):
     """
     Trains a Random Forest classifier on the given data.
 
     Parameters:
-    X_train (array-like): Training features.
-    y_train (array-like): Training labels.
+    X_data (array-like): Training features.
+    y_data (array-like): Training labels.
 
     Returns:
     RandomForestClassifier: Trained model.
     """
-    rf = RandomForestClassifier(class_weight='balanced', n_estimators=100)
-    rf.fit(X_train, y_train)
-    print("Train accuracy: ", rf.score(X_train, y_train))
+    rf = RandomForestClassifier(n_jobs=-1, n_estimators=100, class_weight='balanced', max_depth=8)
+    rf.fit(X_data, y_data)
+    print("Train accuracy: ", rf.score(X_data, y_data))
     return rf

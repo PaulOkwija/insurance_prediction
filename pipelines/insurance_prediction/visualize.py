@@ -53,4 +53,5 @@ def plot_confusion_matrix(y_true, y_pred, classes, normalize=False, title=None, 
     fig, ax = plt.subplots(figsize=(10, 10))
     cm_display.plot(cmap=cmap, ax=ax)
     ax.set_title(title)
-    return ax
+    plt.savefig("./output/confusion_matrix.png")
+    
