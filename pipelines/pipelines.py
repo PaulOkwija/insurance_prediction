@@ -31,15 +31,19 @@ def run_pipeline(file_path, val_size=0.2, feature_selection=True):
     """
     preprocessed_features, labels = run_etl(file_path)
     X_train, X_test, y_train, y_test = split_data(preprocessed_features, labels, val_size, strat=labels, seed=42)
-
+    
     if feature_selection:
-        features_bool = feature_select(X_train, y_train)
-        X_train = X_train[:, features_bool]
-        X_test = X_test[:, features_bool]
+        feature_names = preprocessed_features.columns
+        selected_features = feature_select(X_train, y_train)
+        X_train = pd.DataFrame(X_train, columns=[feature_names])
+        X_test = pd.DataFrame(X_test, columns=[feature_names])
+        X_train_selected = X_train[selected_features]
+        X_test_selected = X_test[selected_features]        
 
 
-    model = train_model(preprocessed_features, labels)
-    y_test_pred = model.predict(X_test)
+
+    model = train_model(X_train_selected, labels)
+    y_test_pred = model.predict(X_test_selected)
     evaluate_model(y_test, y_test_pred, category="Test")
     plot_confusion_matrix(y_test, y_test_pred, [0, 1], title="Test Confusion matrix")
     return model
