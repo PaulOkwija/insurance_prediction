@@ -42,7 +42,7 @@ def run_pipeline(file_path, val_size=0.2, feature_selection=True):
 
 
 
-    model = train_model(X_train_selected, labels)
+    model = train_model(X_train_selected, y_train)
     y_test_pred = model.predict(X_test_selected)
     evaluate_model(y_test, y_test_pred, category="Test")
     plot_confusion_matrix(y_test, y_test_pred, [0, 1], title="Test Confusion matrix")
