@@ -59,7 +59,7 @@ def split_data(features, labels, val_size, strat=None, seed=42):
 
 
 
-def normalize(X_train, X_val):
+def normalize(X_train, X_test):
     """
     Normalizes the data using the mean and standard deviation of the training set.
     
@@ -73,5 +73,5 @@ def normalize(X_train, X_val):
     # Normalize the data
     norm = Normalizer()
     X_train_norm = norm.fit_transform(X_train)
-    X_val_norm = norm.transform(X_val)
-    return X_train_norm, X_val_norm
+    X_test_norm = norm.transform(X_test)
+    return X_train_norm, X_test_norm

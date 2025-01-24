@@ -31,6 +31,7 @@ def run_pipeline(file_path, val_size=0.2, feature_selection=True):
     """
     preprocessed_features, labels = run_etl(file_path)
     X_train, X_test, y_train, y_test = split_data(preprocessed_features, labels, val_size, strat=labels, seed=42)
+    X_train, X_test = normalize(X_train, X_test)
     
     if feature_selection:
         feature_names = preprocessed_features.columns
