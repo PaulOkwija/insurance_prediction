@@ -162,18 +162,39 @@ def preprocess(dataframe):
     print("\n ### Cleaning data.... ###\n")
     dataframe = apply_transform(dataframe, ['NumberOfWindows','Building_Type'])
 
-    print("\n ### Swapping categorical data... ### \n")
-    dataframe = switch_to_int(dataframe, ['Building_Painted','Building_Fenced','Garden','Settlement'])
-
     print("\n ### Dealing with missing values... ### \n")
     dataframe = missing_val_removal(dataframe,['Date_of_Occupancy','Building Dimension','Garden'],'median')
 
-    print("\n ### Dropping Geo_code... ### \n")
-    dataframe = dataframe.drop(['Geo_Code'],axis=1)
+    print("\n ### Dealing with missing values... ### \n")
+    dataframe = missing_val_removal(dataframe,['Geo_Code','mode'])
+
+    # print("\n ### Dropping Geo_code... ### \n")
+    # dataframe = dataframe.drop(['Geo_Code'],axis=1)
+
+    print("\n ### Swapping categorical data... ### \n")
+    dataframe = switch_to_int(dataframe, ['Building_Painted','Building_Fenced','Garden','Geo_Code','Settlement'])
+
+
     print(f"Train shape is {dataframe.shape}")
 
     return dataframe
 
+
+def frequency_encoding(df, columns):
+    """
+    Encodes categorical columns using frequency encoding.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame to encode.
+    columns (list): The list of columns to encode.
+
+    Returns:
+    pd.DataFrame: The DataFrame with frequency-encoded columns.
+    """
+    for col in columns:
+        freq = df[col].value_counts(normalize=True).to_dict()
+        df[col] = df[col].map(freq)
+    return df
 # def overview(dataframe):
 #     """
 #     Provides an overview of the DataFrame, including data types, missing values, and unique values per column.
