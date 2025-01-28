@@ -40,6 +40,22 @@ def switch_to_int(df, columns):
           df = pd.get_dummies(df, columns=[col])
     return df
 
+def frequency_encoding(df, columns):
+    """
+    Encodes categorical columns using frequency encoding.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame to encode.
+    columns (list): The list of columns to encode.
+
+    Returns:
+    pd.DataFrame: The DataFrame with frequency-encoded columns.
+    """
+    for col in columns:
+        freq = df[col].value_counts(normalize=True).to_dict()
+        df[col] = df[col].map(freq)
+    return df 
+
 def transform_value(x):
     """
     Transforms specific string values to integers.
@@ -180,21 +196,7 @@ def preprocess(dataframe):
     return dataframe
 
 
-def frequency_encoding(df, columns):
-    """
-    Encodes categorical columns using frequency encoding.
 
-    Parameters:
-    df (pd.DataFrame): The DataFrame to encode.
-    columns (list): The list of columns to encode.
-
-    Returns:
-    pd.DataFrame: The DataFrame with frequency-encoded columns.
-    """
-    for col in columns:
-        freq = df[col].value_counts(normalize=True).to_dict()
-        df[col] = df[col].map(freq)
-    return df
 # def overview(dataframe):
 #     """
 #     Provides an overview of the DataFrame, including data types, missing values, and unique values per column.
