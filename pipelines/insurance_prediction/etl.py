@@ -134,6 +134,8 @@ def missing_val_removal(df, columns, method, rows=False):
             df[col] = df[col].fillna(df[col].median())
         elif method == 'mode':
             df[col] = df[col].fillna(df[col].mode()[0])
+        elif method == 'mean':
+            df[col] = df[col].fillna(df[col].mean())
     if rows:
         df = df.dropna()
     return df
