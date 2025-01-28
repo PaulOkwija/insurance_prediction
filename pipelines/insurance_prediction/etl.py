@@ -185,7 +185,7 @@ def preprocess(dataframe):
     dataframe = missing_val_removal(dataframe,['Date_of_Occupancy','Building Dimension'],'mean')
 
     print("\n ### Dealing with missing values... ### \n")
-    dataframe = missing_val_removal(dataframe,['Geo_Code','Garden','mode'])
+    dataframe = missing_val_removal(dataframe,['Geo_Code','Garden'],'mode')
 
     # print("\n ### Dropping Geo_code... ### \n")
     # dataframe = dataframe.drop(['Geo_Code'],axis=1)
