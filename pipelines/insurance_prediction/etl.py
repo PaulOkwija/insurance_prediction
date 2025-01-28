@@ -178,17 +178,17 @@ def preprocess(dataframe):
     print("\n ### Cleaning data.... ###\n")
     dataframe = apply_transform(dataframe, ['NumberOfWindows','Building_Type'])
 
-    print("\n ### Swapping categorical data... ### \n")
-    dataframe = switch_to_int(dataframe, ['Building_Painted','Building_Fenced','Garden','Geo_Code','Settlement'])
+    # print("\n ### Swapping categorical data... ### \n")
+    # dataframe = switch_to_int(dataframe, ['Building_Painted','Building_Fenced','Garden','Geo_Code','Settlement'])
 
     print("\n ### Dealing with missing values... ### \n")
     dataframe = missing_val_removal(dataframe,['Date_of_Occupancy','Building Dimension'],'mean')
 
-    print("\n ### Dealing with missing values... ### \n")
-    dataframe = missing_val_removal(dataframe,['Geo_Code','Garden'],'mode')
+    print("\n ### Dealing with other missing values... ### \n")
+    dataframe = missing_val_removal(dataframe,['Garden', 'Geo_Code'],'mode')
 
-    # print("\n ### Dropping Geo_code... ### \n")
-    # dataframe = dataframe.drop(['Geo_Code'],axis=1)
+    print("\n ### Frequency encoding Geo_code... ### \n")
+    dataframe = frequency_encoding(dataframe, ['Geo_Code'])
 
     print("\n ### Swapping categorical data... ### \n")
     dataframe = switch_to_int(dataframe, ['Building_Painted','Building_Fenced','Garden','Geo_Code','Settlement'])
