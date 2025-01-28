@@ -178,11 +178,14 @@ def preprocess(dataframe):
     print("\n ### Cleaning data.... ###\n")
     dataframe = apply_transform(dataframe, ['NumberOfWindows','Building_Type'])
 
-    print("\n ### Dealing with missing values... ### \n")
-    dataframe = missing_val_removal(dataframe,['Date_of_Occupancy','Building Dimension','Garden'],'median')
+    print("\n ### Swapping categorical data... ### \n")
+    dataframe = switch_to_int(dataframe, ['Building_Painted','Building_Fenced','Garden','Geo_Code','Settlement'])
 
     print("\n ### Dealing with missing values... ### \n")
-    dataframe = missing_val_removal(dataframe,['Geo_Code','mode'])
+    dataframe = missing_val_removal(dataframe,['Date_of_Occupancy','Building Dimension'],'mean')
+
+    print("\n ### Dealing with missing values... ### \n")
+    dataframe = missing_val_removal(dataframe,['Geo_Code','Garden','mode'])
 
     # print("\n ### Dropping Geo_code... ### \n")
     # dataframe = dataframe.drop(['Geo_Code'],axis=1)
