@@ -31,7 +31,7 @@ def feature_select(x_train, y_train, feature_names, top_features=5):
 
     # Rank features by importance
     feature_importance_df = feature_importance_df.sort_values(by='Importance', ascending=False)
-    print(feature_importance_df)
+    print(feature_importance_df.to_string())
 
     # Select top N top_features (example selecting top 5 features)
     top_features = feature_importance_df['Feature'][:top_features].values
